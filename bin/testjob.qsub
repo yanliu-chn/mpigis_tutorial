@@ -1,0 +1,16 @@
+#!/bin/bash
+##PBS -A TG-SES090019
+#PBS -N testjob
+#PBS -q shared
+#PBS -S /bin/bash
+#PBS -o /home/simpleg/tmp/testjob.stdout
+#PBS -e /home/simpleg/tmp/testjob.stderr
+#PBS -V
+#PBS -M yanliu@ncsa.illinois.edu
+#PBS -m be
+#PBS -l nodes=01:ppn=01,walltime=00:01:00
+
+echo "Running my pbs job using $PBS_NP cores with machine file at $PBS_NODEFILE ..."
+
+$HOME/tutorial/u1/hpc/bin/dosth.sh
+

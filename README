@@ -1,0 +1,25 @@
+Parallel Geospatial Programming Models Training Package
+Author: Yan Y. Liu <yanliu@illinois.edu>
+
+==Content==
+- bin/
+	dosth.sh: a dummy script that does nothing but sleeping, mimicing a running job
+	jserial.sh: run a batch of jobs sequentially
+	jpar.sh: run a batch of jobs in parallel by using just bash
+	testjob.qsub: test job for PBS qsub
+- code/
+	util.{h,cc}: utility functions
+	data.{h,cc}: GDAL-based raster I/O functions with data decomposition strategy (block-wise)
+	mpibasic.cc: basic MPI program
+	sendrecv.cc: basic MPI program for point2point comm and demo of deadlock
+	mapalg-diff.cc: map algebra - diff two rasters
+	mapalg-dist.cc: map algebra - focal distance
+	mapalg-dist-mrsw.cc: map algebra - focal distance - posix parallel read, single process write
+	mapalg-dist-mrmw.cc: map algebra - focal distance - posix parallel read, MPI IO write (needs SPTW, not finished yet)
+	mapalg-dist-openmp.cc: map algebra - focal distance - openmp
+	Makefile: make file
+- test/
+	decomp.cc: illustration of how to do block-wise data decomposition 
+	rastercp.cc: illustration of using GDAL raster I/O for raster copy
+- data/
+	README: instruction on how to get raster example datasets

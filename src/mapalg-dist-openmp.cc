@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <omp.h>
+//#include <omp.h>
 #include "util.h"
 #include "data.h"
 #include "gdal.h"
@@ -18,7 +18,7 @@
 // e.g.: export OMP_NUM_THREADS=32; mapalg-dist-openmp ../../data/allbig.tif -1492833 2732555 1170 ../../output/dist.tif 4
 int main(int argc, char** argv) {
 	int np = atoi(argv[6]); 
-	omp_set_num_threads (np); // set by env var OMP_NUM_THREADS
+//	omp_set_num_threads (np); // set by env var OMP_NUM_THREADS
 	double t0, t1, t2, t3, t4, t5; // timing info
 
 	t0 = get_timemark();
@@ -83,7 +83,7 @@ int main(int argc, char** argv) {
 	float xc, yc, zc;
 	int p;
 	#pragma omp parallel
-	fprintf(stdout, "OpenMP mode: using %d threads\n", omp_get_num_threads()); 
+//	fprintf(stdout, "OpenMP mode: using %d threads\n", omp_get_num_threads()); 
 	#pragma omp parallel for private(p, i, j, index, xc, yc, zc, boffsetx, boffsety, bsizex, bsizey, b)
 	for (p=0; p<np; p++) {
 		boffsetx = offsetx[p];
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
 	t4 = get_timemark();
 	// step 5: write output
 	GDALDatasetH rout;
-	rout = raster_create(ofn, x, y, georef, prj, nodata);
+	rout = raster_create(ofn, x, y, georef, prj, nodata, 0);
 	for (i=0; i<np; i++) {
 		block = raster + i * (maxx * maxy);
 		raster_write(rout, block, offsetx[i], offsety[i], sizex[i], sizey[i]);

@@ -13,7 +13,7 @@
 #include "cpl_string.h"
 
 // test read and write a raster file in data blocks - raster copy
-// g++ -DDEBUG -I. -I../code/ -I$GDAL_HOME/include -o rastercp rastercp.cc ../code/util.cc ../code/data.cc -L$GDAL_HOME/lib -lgdal -lm
+// g++ -DDEBUG -I. -I../src/ -I$GDAL_HOME/include -o rastercp rastercp.cc ../src/util.cc ../src/data.cc -L$GDAL_HOME/lib -lgdal -lm
 int main(int argc, char **argv) {
 	char * fn = argv[1];
 	char * ofn = argv[2];
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 
 	// create output raster
 	GDALDatasetH rout;
-	rout = raster_create(ofn, x, y, georef, prj, nodata);
+	rout = raster_create(ofn, x, y, georef, prj, nodata, 0);
 	for (i=0; i<np; i++) {
 		block = raster + i * (maxx * maxy);
 		raster_write(rout, block, offsetx[i], offsety[i], sizex[i], sizey[i]);

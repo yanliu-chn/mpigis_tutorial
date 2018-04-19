@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
 	// step 5: write output
     if (rank == 0) {
 	GDALDatasetH rout;
-	rout = raster_create(ofn, x, y, georef, prj, nodata);
+	rout = raster_create(ofn, x, y, georef, prj, nodata, 0);
 	for (i=0; i<np; i++) {
 		block = raster + i * (maxx * maxy);
 		raster_write(rout, block, offsetx[i], offsety[i], sizex[i], sizey[i]);

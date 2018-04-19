@@ -17,9 +17,11 @@
 //#include <tiffio.h>
 
 // create test raster file 
+// ./gentestdata /tmp/t.tif 0|100
 // g++ -DDEBUG -I. -I../src/ -I$GDAL_HOME/include -o gentestdata gentestdata.cc ../src/util.cc ../src/data.cc -L$GDAL_HOME/lib -lgdal -lm
 int main(int argc, char **argv) {
 	char * ofn = argv[1];
+	int tileSize = atoi(argv[2]);
 	int i, j;
 	
 	double georef[6] = {-88.0, 0.0001, 0, 40.0, 0, -0.0001}; // georef data structure for a raster
@@ -45,7 +47,7 @@ int main(int argc, char **argv) {
 	}
 	// create output raster
 	GDALDatasetH rout;
-	rout = raster_create(ofn, x, y, georef, prj, nodata);
+	rout = raster_create(ofn, x, y, georef, prj, nodata, tileSize);
 	raster_write(rout, raster, 0, 0, x, y);
 	raster_close(rout);
 	

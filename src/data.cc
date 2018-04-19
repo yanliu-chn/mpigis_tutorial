@@ -71,7 +71,7 @@ void raster_close(GDALDatasetH hDataset)
 	GDALClose(hDataset);
 }
 // create output raster
-GDALDatasetH raster_create(char *fn, int x, int y, double *georef, char *prj, double nodata)
+GDALDatasetH raster_create(char *fn, int x, int y, double *georef, char *prj, double nodata, int tileSize)
 {
 	GDALDriverH gtiff_driver = NULL;
 	GDALDatasetH ds = NULL;
@@ -85,10 +85,17 @@ GDALDatasetH raster_create(char *fn, int x, int y, double *georef, char *prj, do
 		fprintf(stderr, "Error get raster data driver %s\n", format);
 		exit(1);
 	}
-
+  
+  char t[32];
 	options = CSLSetNameValue(options, "BIGTIFF", "YES");
 	options = CSLSetNameValue(options, "INTERLEAVE", "PIXEL");
 	options = CSLSetNameValue(options, "COMPRESS", "NONE");
+  if (tileSize > 0) { // tiled raster
+    options = CSLSetNameValue(options, "TILED", "YES");
+    sprintf(t, "%d", tileSize);
+    options = CSLSetNameValue(options, "BLOCKXSIZE", t);
+    options = CSLSetNameValue(options, "BLOCKYSIZE", t);
+  }
 	// create raster
 	ds = GDALCreate( gtiff_driver, fn, x, y, 1, GDT_Float32, options);
 

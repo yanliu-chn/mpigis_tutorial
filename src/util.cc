@@ -88,4 +88,30 @@ int get_block(int rank, int np, int x, int y, int *offsetx, int *offsety, int * 
 	}
 	return 1;
 }
+
+
+int get_block2(int rank, int np, int x, int y, int *offsetx, int *offsety, int * sizex, int *sizey)
+{
+	int dimx, dimy, blockx, blocky;
+	int cellsx, cellsy, rcellsx, rcellsy; // num cells on 2 dims and remainders
+	get_best_dim(np, &dimy, &dimx); // number of blocks on each dimension
+	blockx = rank % dimx; // block id on x dim
+	blocky = rank / dimx; // block id on y dim
+#ifdef DEBUG
+	fprintf(stderr, "np %d gets %d x %d blocks; rank %d blocky=%d blockx=%d\n", np, dimy, dimx, rank, blocky, blockx);
+#endif
+	cellsx = x / dimx;
+	cellsy = y / dimy;
+	rcellsx = x % dimx;
+	rcellsy = y % dimy;
+	*offsetx = blockx * cellsx;
+	*offsety = blocky * cellsy;
+	*sizex = cellsx;
+	*sizey = cellsy;
+	if (blockx < rcellsx) { *offsetx = *offsetx + rank; *sizex = *sizex + 1; }
+	else { *offsetx = *offsetx + rcellsx; }
+	if (blocky < rcellsy) { *offsety = *offsety + rank; *sizey = *sizey + 1; }
+	else { *offsety = *offsety + rcellsy; }
+	return 1;
+}
 #endif

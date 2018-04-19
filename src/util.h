@@ -20,5 +20,6 @@ double get_timemark();
 void print_jobstat() ;
 int get_best_dim(int np, int *rowSize, int *colSize);
 int get_block(int rank, int np, int x, int y, int *offsetx, int *offsety, int * sizex, int *sizey);
+int get_block2(int rank, int np, int x, int y, int *offsetx, int *offsety, int * sizex, int *sizey);
 
 #endif

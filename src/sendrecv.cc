@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 	if (rank % 2 == 0) { // sender
 		for (i=0; i<10; i++)
 			buf[i] = i*i;
-		MPI_Ssend(buf, 10, MPI_INT, ((rank + 1) % size), 999, MPI_COMM_WORLD);
+		MPI_Send(buf, 10, MPI_INT, ((rank + 1) % size), 999, MPI_COMM_WORLD);
 		MPI_Recv(buf, 10, MPI_INT, ((rank + 1) % size), 999, MPI_COMM_WORLD, &status);
 		fprintf(stdout, "Proc %d got ", rank);
 		for (i=0; i<10; i++)
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 	} else { // receiver
 		for (i=0; i<10; i++)
 			buf[i] = i*i*i;
-		MPI_Ssend(buf, 10, MPI_INT, ((rank + size - 1) % size), 999, MPI_COMM_WORLD);
+		MPI_Send(buf, 10, MPI_INT, ((rank + size - 1) % size), 999, MPI_COMM_WORLD);
 		MPI_Recv(buf, 10, MPI_INT, ((rank + size - 1) % size), 999, MPI_COMM_WORLD, &status);
 		fprintf(stdout, "Proc %d got ", rank);
 		for (i=0; i<10; i++)

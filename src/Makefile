@@ -9,7 +9,7 @@ CXX          = mpicxx
 CXXFLGS     += -g -Wall -std=c++0x 
 # openmp options
 # intel compiler
-OPENMP= -openmp
+OPENMP= -qopenmp
 # gcc
 #OPENMP=-fopenmp -lgomp
 # source file pattern
@@ -19,14 +19,13 @@ SRCH         = h
 # SPTW
 #SPTW_HOME    ?= ../../sptw
 SPTW_HOME    ?= $(WORK)/tutorial/sptw
-#GDALTIFF_DIR ?= /nano/tmp/tutorial/gdal-1.10.1/frmts/gtiff/libtiff
 GDALTIFF_DIR ?= $(WORK)/software/gdal-1.11.0/frmts/gtiff/libtiff
 
 # functions and classes
-TARGETS      = data util $(SPTW_HOME)/sptw 
+TARGETS      = data util #$(SPTW_HOME)/sptw 
 OBJS         = $(TARGETS:=.o)
 # executables
-MAINS        = mpibasic sendrecv mapalg-diff mapalg-dist mapalg-dist-openmp mapalg-dist-mrsw mapalg-dist-mrmw
+MAINS        = mpibasic sendrecv mapalg-diff mapalg-dist mapalg-dist-openmp mapalg-dist-mrsw #mapalg-dist-mrmw
 
 # external libs
 EXTDIRS      = $(GDAL_HOME)
@@ -35,7 +34,7 @@ LIBPATH      = $(EXTDIRS:%=-L%/lib)
 LIBS         = -lgdal
 
 # extra
-EXTRAINC     = -I$(SPTW_HOME) -I$(GDALTIFF_DIR)
+EXTRAINC     = #-I$(GDALTIFF_DIR) -I$(SPTW_HOME) 
 
 # default system libs
 LIBS_DEFAULT = -lm

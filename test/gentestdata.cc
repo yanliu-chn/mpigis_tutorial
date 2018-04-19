@@ -11,15 +11,19 @@
 #include "gdal.h"
 #include "cpl_conv.h"
 #include "cpl_string.h"
+#include <ogr_api.h>
+#include <ogr_spatialref.h>
+//#include <tiff.h>
+//#include <tiffio.h>
 
 // create test raster file 
-// g++ -DDEBUG -I. -I../code/ -I$GDAL_HOME/include -o gentestdata gentestdata.cc ../code/util.cc ../code/data.cc -L$GDAL_HOME/lib -lgdal -lm
+// g++ -DDEBUG -I. -I../src/ -I$GDAL_HOME/include -o gentestdata gentestdata.cc ../src/util.cc ../src/data.cc -L$GDAL_HOME/lib -lgdal -lm
 int main(int argc, char **argv) {
 	char * ofn = argv[1];
 	int i, j;
 	
-	double georef[6] = {-80.0, 0.001, 0, 40.0, 0, -0.01}; // georef data structure for a raster
-	char prj[2048]; // store projection wkt
+	double georef[6] = {-88.0, 0.0001, 0, 40.0, 0, -0.0001}; // georef data structure for a raster
+	char *prj; // store projection wkt
 	double nodata = 0;
 	int x=10000, y=10000; // size of raster on x and y dim
 	OGRSpatialReference srs;
@@ -30,7 +34,7 @@ int main(int argc, char **argv) {
 	float *raster = (float *)malloc(sizeof(float) * x * y);
 	memset(raster, 0, sizeof(float) * x * y );
 	// read blocks from input raster
-	int I = 10;
+	int I = 1000;
 	for (i=0; i<y; i++) {
 		for (j=0; j<x; j++) {
 			if (j % I == i % I)
